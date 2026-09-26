@@ -113,6 +113,7 @@
         
         <p class="font-sans text-sm mb-6 text-gray-300 pt-4 px-4">بداية حكايتنا للأبد 🤍</p>
 
+        <!-- الصور الكلاسيكية للزخرفة والموقع (استبدل src الخاص بها لو أردت) -->
         <div class="relative mx-auto w-[300px] sm:w-[320px] flex items-center justify-center mb-6">
             <img src="ChatGPT Image Sep 26, 2026, 03_03_31 AM.png" alt="محمد و نجوى" class="w-full h-auto object-contain">
         </div>
@@ -180,7 +181,7 @@
         <div class="bg-[#3b0713] border-2 border-yellow-500/80 rounded-2xl p-6 w-full max-w-sm text-center relative shadow-2xl">
             <button onclick="closeAdminAuthModal()" class="absolute top-3 left-3 text-yellow-400 hover:text-white"><i class="fas fa-times"></i></button>
             <h3 class="font-elegant text-2xl text-yellow-300 mb-2">تسجيل الدخول</h3>
-            <p class="text-xs text-gray-300 font-sans mb-4">أدخل كلمة المرور لرؤية التهاني أو (...) للزوار</p>
+            <p class="text-xs text-gray-300 font-sans mb-4">أدخل كلمة المرور لرؤية التهاني أو (z) للزوار</p>
             <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور..." class="w-full bg-[#2a040c] border border-yellow-500/60 rounded-xl p-3 text-center text-yellow-100 font-sans mb-4">
             <button onclick="verifyAdminPassword()" class="btn-open w-full py-2.5 text-sm">تأكيد</button>
         </div>
@@ -218,15 +219,15 @@
 
     <script>
         // ==========================================
-        // 1. إعدادات Firebase الخاصة بك
+        // 1. إعدادات Firebase (ضع بياناتك هنا مكان الأكواد)
         // ==========================================
         const firebaseConfig = {
-            apiKey: "AIzaSyDcuv1wSympkIrrUx93kdPuXUQdnbb2CPs",
-            authDomain: "wedding--m-n.firebaseapp.com",
-            projectId: "wedding--m-n",
-            storageBucket: "wedding--m-n.firebasestorage.app",
-            messagingSenderId: "766556802145",
-            appId: "1:766556802145:web:be765a04b0d2c7da696e20"
+            apiKey: "ضع_مفتاح_API_هنا",
+            authDomain: "اسم_مشروعك.firebaseapp.com",
+            projectId: "اسم_مشروعك",
+            storageBucket: "اسم_مشروعك.appspot.com",
+            messagingSenderId: "رقم_المرسل_هنا",
+            appId: "معرف_التطبيق_هنا"
         };
         
         // تشغيل قاعدة البيانات
@@ -314,7 +315,7 @@
                 document.getElementById('guestMessage').value = '';
             } catch(e) {
                 console.error(e);
-                alert("حدث خطأ في الإرسال، تأكد من إعدادات قاعدة البيانات.");
+                alert("حدث خطأ في الإرسال، تأكد من اتصالك بالإنترنت.");
             }
             btn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال التهاني';
             btn.disabled = false;
