@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- عنوان التبويب -->
+    <title>M&N</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --burgundy-dark: #2a040c;
+            --burgundy-card: #3b0713;
+            --burgundy-light: #4a0c16;
+            --gold-primary: #d4af37;
+            --gold-light: #fef08a;
+            --rose-red: #c0262d;
+            --text-color: #f8e5d6;
+        }
+
+        body {
+            font-family: 'Amiri', serif;
+            background: linear-gradient(180deg, var(--burgundy-dark) 0%, var(--burgundy-light) 100%);
+            background-attachment: fixed;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+        }
+
+        .font-elegant { font-family: 'Aref Ruqaa', serif; }
+        .font-sans { font-family: 'Cairo', sans-serif; }
+
+        /* Floating Flowers Animation */
+        .flowers-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .flower {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.35);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Intro Screen & Centered Card */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 2, 6, 0.96);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .intro-card {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            background: linear-gradient(145deg, #360712 0%, #200308 100%);
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 15px rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+        }
+
+        .intro-card-border {
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(212, 175, 55, 0.45);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+        .card-ornament {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            color: var(--gold-primary);
+            opacity: 0.9;
+        }
+        .ornament-top-right { top: 12px; right: 12px; transform: scale(-1, 1); }
+        .ornament-top-left { top: 12px; left: 12px; transform: scale(1, 1); }
+        .ornament-bottom-right { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+        .ornament-bottom-left { bottom: 12px; left: 12px; transform: scale(1, -1); }
+
+        .monogram-text {
+            font-family: 'Times New Roman', serif;
+            font-size: 3.2rem;
+            color: var(--gold-light);
+            line-height: 1.1;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, #fef08a 0%, #d4af37 100%);
+            color: #2a040c;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            padding: 12px 40px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 25px;
+            position: relative;
+            z-index: 10;
+        }
+        .btn-open:active { transform: scale(0.95); }
+
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 90;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(42, 4, 12, 0.85);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #main-content {
+            display: none;
+            position: relative;
+            z-index: 10;
+            padding: 40px 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .calendar-wrapper {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px auto 10px;
+            max-width: 300px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+        }
+        .calendar-header {
+            font-weight: 700;
+            color: var(--gold-primary);
+            margin-bottom: 8px;
+        }
+        .calendar-day { padding: 5px 0; color: #ccc; }
+        .calendar-day.highlight {
+            background-color: var(--gold-primary);
+            color: var(--burgundy-dark);
+            border-radius: 50%;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-family: 'Cairo', sans-serif;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background: var(--gold-primary);
+            color: var(--burgundy-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="Albumaty.Com_twwlyt_mn_ghyr_klam.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="تشغيل / إيقاف الموسيقى">
+        <i class="fas fa-music" id="musicIcon"></i>
+    </button>
+
+    <!-- Floating Flowers Background -->
+    <div class="flowers-container" id="flowersContainer"></div>
+
+    <!-- Intro Screen -->
+    <div id="intro-screen">
+        <div class="intro-card">
+            
+            <div class="intro-card-border"></div>
+
+            <svg class="card-ornament ornament-top-right" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M100,0 H20 C10,0 0,10 0,20 V100 C0,50 50,0 100,0 Z" opacity="0.3"/>
+                <path d="M95,5 H30 C20,5 5,20 5,30 V95" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M90,12 H40 C25,12 12,25 12,40 V90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="80" cy="20" r="4"/>
+                <circle cx="20" cy="80" r="4"/>
+            </svg>
+
+            <svg class="card-ornament ornament-top-left" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M100,0 H20 C10,0 0,10 0,20 V100 C0,50 50,0 100,0 Z" opacity="0.3"/>
+                <path d="M95,5 H30 C20,5 5,20 5,30 V95" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M90,12 H40 C25,12 12,25 12,40 V90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="80" cy="20" r="4"/>
+                <circle cx="20" cy="80" r="4"/>
+            </svg>
+
+            <svg class="card-ornament ornament-bottom-right" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M100,0 H20 C10,0 0,10 0,20 V100 C0,50 50,0 100,0 Z" opacity="0.3"/>
+                <path d="M95,5 H30 C20,5 5,20 5,30 V95" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M90,12 H40 C25,12 12,25 12,40 V90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="80" cy="20" r="4"/>
+                <circle cx="20" cy="80" r="4"/>
+            </svg>
+
+            <svg class="card-ornament ornament-bottom-left" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M100,0 H20 C10,0 0,10 0,20 V100 C0,50 50,0 100,0 Z" opacity="0.3"/>
+                <path d="M95,5 H30 C20,5 5,20 5,30 V95" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M90,12 H40 C25,12 12,25 12,40 V90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="80" cy="20" r="4"/>
+                <circle cx="20" cy="80" r="4"/>
+            </svg>
+
+            <div class="bg-yellow-600/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 border border-yellow-500/50 relative z-10">
+                <i class="fas fa-heart text-yellow-500 text-xl"></i>
+            </div>
+
+            <div class="monogram-text mb-4 relative z-10">
+                M<br>
+                <span class="text-xl font-serif text-yellow-300">&</span><br>
+                N
+            </div>
+
+            <p class="font-sans text-lg text-yellow-100/90 mb-4 font-semibold relative z-10">16 أكتوبر، 2026</p>
+            
+            <p class="font-elegant text-xl text-center px-2 leading-relaxed text-yellow-200/90 mb-2 relative z-10">
+                بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا<br>وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+            </p>
+
+            <button class="btn-open" id="openBtn" onclick="openInvitation(event)">فتح الدعوة</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="container mx-auto w-full text-center">
+        
+        <p class="font-sans text-sm mb-6 text-gray-300 pt-4 px-4">بداية حكايتنا للأبد 🤍</p>
+
+        <!-- الصورة الشخصية -->
+        <div class="relative mx-auto w-[300px] sm:w-[320px] flex items-center justify-center mb-6">
+            <img src="ChatGPT Image Sep 26, 2026, 03_03_31 AM.png" alt="محمد و نجوى" class="w-full h-auto object-contain">
+        </div>
+
+        <!-- قسم الحروف محاط بإطار الزخرفة الفخمة -->
+        <div class="relative mx-auto my-10 w-[95%] max-w-[420px] flex items-center justify-center">
+            <img src="ChatGPT Image Sep 26, 2026, 03_18_24 AM.png" alt="إطار زخرفي" class="w-full h-auto object-contain pointer-events-none" style="mix-blend-mode: multiply; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+            
+            <div class="absolute inset-0 z-10 flex flex-col items-center justify-center pb-2">
+                <div class="font-serif text-6xl font-bold text-gold-light tracking-wider mb-2">M</div>
+                <div class="font-serif text-3xl text-yellow-300 my-1">&</div>
+                <div class="font-serif text-6xl font-bold text-gold-light tracking-wider mt-2">N</div>
+            </div>
+        </div>
+
+        <!-- Section 1: مقدمة الحفل -->
+        <div class="my-8 max-w-md mx-auto">
+            <p class="font-sans text-sm leading-relaxed text-gray-200 px-4 mb-4">
+                من أول نظرة إلى وعد للأبد، قصة بدأت بابتسامة وتكلل اليوم بالزواج،<br>
+                نتشرف بدعوتكم لتكونوا جزءاً من حكايتنا 💒
+            </p>
+        </div>
+
+        <!-- Section 2: معلومات الحفل مع الزخرفة -->
+        <div class="my-10 max-w-md mx-auto">
+            <div class="w-48 mx-auto my-3 flex justify-center">
+                <img src="ChatGPT Image Sep 26, 2026, 03_05_30 AM.png" alt="زخرفة كلاسيكية" class="w-full h-auto object-contain" style="mix-blend-mode: multiply; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+            </div>
+
+            <h2 class="font-elegant text-3xl text-gold-light mb-4">معلومات الحفل</h2>
+            <p class="font-sans text-sm leading-relaxed text-gray-200 px-4">
+                ننتظر حضوركم لنكتمل بفرحتكم وتشاركونا أجمل لحظات العمر ✨
+            </p>
+        </div>
+
+        <div class="monogram-text text-2xl my-8 opacity-50">
+            M & N
+        </div>
+
+        <!-- Section 3: Reception, Countdown & Calendar تم تمديد إطار الصورة إلى حواف الشاشة بالكامل -->
+        <div class="relative w-full my-10 py-10 px-4 flex flex-col items-center justify-center overflow-hidden">
+            <!-- خلفية الإطار تمتد بعرض الشاشة الكامل دون التقيد بعرض معين -->
+            <img src="ChatGPT Image Sep 26, 2026, 03_07_04 AM.png" alt="إطار زخرفي للاستقبال" class="absolute inset-0 w-full h-full object-fill pointer-events-none" style="mix-blend-mode: multiply; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+
+            <div class="relative z-10 w-full max-w-md flex flex-col items-center py-4">
+                <h2 class="font-elegant text-3xl text-gold-light mb-4">معلومات الاستقبال</h2>
+                <p class="font-sans text-sm mb-2 text-gray-300">سيقام الاستقبال في:</p>
+                <p class="font-sans text-lg font-bold text-gold-light">الجمعة 16 أكتوبر 2026<br>PM 3:00</p>
+                
+                <!-- العد التنازلي -->
+                <p class="font-sans text-sm mt-8 mb-3 text-gray-300">العد التنازلي للمناسبة ⏳</p>
+                <div class="grid grid-cols-4 gap-2 my-4 w-full max-w-xs text-center" dir="rtl">
+                    <div class="bg-[#3b0713]/90 border border-yellow-500/50 p-2 rounded-xl shadow-lg">
+                        <span id="cd-days" class="block text-xl font-bold text-yellow-300 font-sans">00</span>
+                        <span class="text-[10px] text-gray-300 font-sans">أيام</span>
+                    </div>
+                    <div class="bg-[#3b0713]/90 border border-yellow-500/50 p-2 rounded-xl shadow-lg">
+                        <span id="cd-hours" class="block text-xl font-bold text-yellow-300 font-sans">00</span>
+                        <span class="text-[10px] text-gray-300 font-sans">ساعات</span>
+                    </div>
+                    <div class="bg-[#3b0713]/90 border border-yellow-500/50 p-2 rounded-xl shadow-lg">
+                        <span id="cd-mins" class="block text-xl font-bold text-yellow-300 font-sans">00</span>
+                        <span class="text-[10px] text-gray-300 font-sans">دقائق</span>
+                    </div>
+                    <div class="bg-[#3b0713]/90 border border-yellow-500/50 p-2 rounded-xl shadow-lg">
+                        <span id="cd-secs" class="block text-xl font-bold text-yellow-300 font-sans">00</span>
+                        <span class="text-[10px] text-gray-300 font-sans">ثواني</span>
+                    </div>
+                </div>
+
+                <p class="font-sans text-sm font-bold text-gold-light mt-6 mb-3 border-b border-yellow-700 pb-2 mx-auto w-32">أكتوبر 2026</p>
+                
+                <!-- Calendar -->
+                <div class="calendar-wrapper w-full">
+                    <div class="calendar-grid calendar-header">
+                        <div>ح</div><div>ن</div><div>ث</div><div>ر</div><div>خ</div><div>ج</div><div>س</div>
+                    </div>
+                    <div class="calendar-grid" id="calendar-days"></div>
+                </div>
+
+                <!-- زر حفظ في التقويم -->
+                <button onclick="saveToCalendar()" class="action-button mt-4">
+                    <i class="far fa-calendar-plus ml-2"></i> حفظ في التقويم
+                </button>
+            </div>
+        </div>
+
+        <!-- Location Section (تم إضافة اسم القاعة المطلوبة هنا) -->
+        <div class="my-10 max-w-md mx-auto px-4">
+            <p class="font-sans text-sm mb-2 text-gray-300">مكان الحفل</p>
+            <h3 class="font-elegant text-2xl text-gold-light mb-2">موقع الحفل</h3>
+            
+            <!-- اسم القاعة والنادي -->
+            <p class="font-sans text-base font-semibold text-yellow-200/90 mb-4 leading-relaxed">
+                قاعة ريفيرا نادي النصر لضباط القوات المسلحة - سموحة
+            </p>
+            
+            <a href="https://maps.app.goo.gl/mN8eViRApmg3bjTB9?g_st=ac" target="_blank" class="action-button">
+                <i class="fas fa-map-marker-alt ml-2"></i> فتح موقع الحفل على الخريطة
+            </a>
+        </div>
+
+        <!-- Section: Guest Wishes with Quranic Verse -->
+        <div class="my-14 bg-[#3b0713]/85 border border-[#d4af37]/40 rounded-2xl p-6 text-right max-w-sm mx-auto shadow-2xl">
+            <h3 class="font-elegant text-2xl text-yellow-300 text-center mb-6">شاركونا فرحتنا 💌</h3>
+            
+            <!-- Guest Name -->
+            <div class="mb-4">
+                <label class="block text-xs text-yellow-100/90 mb-2 font-sans font-semibold">اسمك الكريم:</label>
+                <input type="text" id="guestName" placeholder="أدخل اسمك هنا..." class="w-full bg-[#2a040c] border border-yellow-500/50 rounded-xl p-3 text-sm text-yellow-100 focus:outline-none focus:border-yellow-400 font-sans">
+            </div>
+
+            <!-- Text Message -->
+            <div class="mb-5">
+                <label class="block text-xs text-yellow-100/90 mb-2 font-sans font-semibold">تهنئة للعروسين:</label>
+                <textarea id="guestMessage" rows="3" placeholder="اكتب أجمل أمنياتك وتهنئتك للعروسين..." class="w-full bg-[#2a040c] border border-yellow-500/50 rounded-xl p-3 text-sm text-yellow-100 focus:outline-none focus:border-yellow-400 font-sans"></textarea>
+            </div>
+
+            <!-- الآية الكريمة -->
+            <div class="mb-6 bg-[#2a040c]/85 border border-yellow-500/40 rounded-xl p-4 text-center">
+                <p class="font-elegant text-lg leading-relaxed text-yellow-200">
+                    وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
+                </p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" onclick="submitGuestData()" class="btn-open w-full text-center text-sm py-3 mt-2 shadow-lg">
+                <i class="fas fa-paper-plane ml-2"></i> إرسال التهاني والمشاركات
+            </button>
+        </div>
+
+        <!-- Quranic Footer -->
+        <p class="font-elegant text-xl text-center px-6 mt-12 mb-10 text-yellow-200 opacity-80">
+            بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+        </p>
+
+        <!-- قسم الدعوة والواتساب -->
+        <div class="mt-8 mb-6 pt-6 flex flex-col items-center">
+            <p class="font-sans text-sm font-semibold text-yellow-200/90 mb-3">لعمل دعوة زفاف إلكترونية</p>
+            <hr class="border-t border-yellow-700/50 w-1/2 mx-auto mb-5">
+            
+            <div class="flex justify-center items-center gap-6">
+                <a href="https://www.facebook.com/share/v/1VPkdFWEQF/" target="_blank" class="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl shadow-lg hover:bg-blue-500 hover:scale-110 transition duration-300">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                
+                <a href="https://wa.me/201559087112" target="_blank" class="w-11 h-11 rounded-full bg-green-600 text-white flex items-center justify-center text-xl shadow-lg hover:bg-green-500 hover:scale-110 transition duration-300">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Admin Link -->
+        <div class="mt-6 border-t border-yellow-900/40 pt-4">
+            <button onclick="openAdminAuthModal()" class="text-xs text-yellow-500/70 hover:text-yellow-300 underline font-sans transition">
+                <i class="fas fa-lock ml-1"></i> تسجيل العريس والعروسة
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Password Verification Modal -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black/80 z-[150] hidden flex items-center justify-center p-4">
+        <div class="bg-[#3b0713] border-2 border-yellow-500/80 rounded-2xl p-6 w-full max-w-sm text-center relative shadow-2xl">
+            <button onclick="closeAdminAuthModal()" class="absolute top-3 left-3 text-yellow-400 hover:text-white"><i class="fas fa-times"></i></button>
+            <div class="w-12 h-12 bg-yellow-500/20 border border-yellow-500 rounded-full flex items-center justify-center mx-auto mb-3 text-yellow-400 text-xl">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h3 class="font-elegant text-2xl text-yellow-300 mb-2">تسجيل العريس والعروسة</h3>
+            <p class="text-xs text-gray-300 font-sans mb-4">يرجى إدخال كلمة المرور لرؤية تهاني الأحباب</p>
+            <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور..." class="w-full bg-[#2a040c] border border-yellow-500/60 rounded-xl p-3 text-center text-yellow-100 font-sans mb-4 focus:outline-none focus:border-yellow-400">
+            <button onclick="verifyAdminPassword()" class="btn-open w-full py-2.5 text-sm">تأكيد</button>
+            <p id="authError" class="text-xs text-rose-400 mt-3 hidden font-sans">كلمة المرور غير صحيحة!</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-[#2a040c]/95 z-[200] hidden overflow-y-auto p-4 sm:p-6" dir="rtl">
+        <div class="max-w-xl mx-auto bg-[#3b0713] border border-yellow-500/60 rounded-2xl p-6 shadow-2xl text-right">
+            <div class="flex justify-between items-center border-b border-yellow-800/60 pb-4 mb-6">
+                <h2 class="font-elegant text-2xl text-yellow-300"><i class="fas fa-heart text-rose-500 ml-2"></i> تهاني ومشاركات الضيوف</h2>
+                <button onclick="closeAdminDashboard()" class="bg-rose-900/60 text-rose-200 px-3 py-1.5 rounded-lg text-xs hover:bg-rose-800 font-sans"><i class="fas fa-times ml-1"></i> إغلاق</button>
+            </div>
+            
+            <div id="adminSubmissionsList" class="space-y-6">
+                <!-- Rendered Dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgAudio');
+        let isPlaying = false;
+        let autoScrollInterval = null;
+
+        function playPopSoundEffect() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) {
+                    const ctx = new AudioCtx();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(550, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1100, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.15);
+                }
+            } catch(e) { console.log(e); }
+        }
+
+        function triggerHeartBurst(event) {
+            try {
+                if (typeof confetti === 'function') {
+                    let shapes = ['circle'];
+                    if (confetti.shapeFromText) {
+                        shapes = [
+                            confetti.shapeFromText({ text: '❤️', scalar: 2 }),
+                            confetti.shapeFromText({ text: '🌹', scalar: 2 })
+                        ];
+                    }
+                    confetti({
+                        particleCount: 50,
+                        spread: 90,
+                        origin: { y: 0.6 },
+                        colors: ['#c0262d', '#e63946', '#d4af37'],
+                        shapes: shapes,
+                        scalar: 1.3
+                    });
+                }
+            } catch(e) { console.log(e); }
+        }
+
+        function toggleMusic() {
+            const icon = document.getElementById('musicIcon');
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                icon.className = 'fas fa-volume-mute';
+            } else {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    icon.className = 'fas fa-music';
+                }).catch(e => console.log(e));
+            }
+        }
+
+        function createFlowers() {
+            const container = document.getElementById('flowersContainer');
+            const flowerIcons = ['fa-asterisk', 'fa-sun', 'fa-snowflake'];
+            for (let i = 0; i < 20; i++) {
+                const flower = document.createElement('i');
+                flower.className = `fas ${flowerIcons[Math.floor(Math.random() * flowerIcons.length)]} flower`;
+                flower.style.fontSize = (Math.random() * 10 + 6) + 'px';
+                flower.style.left = (Math.random() * 100) + 'vw';
+                flower.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                flower.style.animationDelay = (Math.random() * 4) + 's';
+                container.appendChild(flower);
+            }
+        }
+        createFlowers();
+
+        function startSlowAutoScroll() {
+            setTimeout(() => {
+                autoScrollInterval = setInterval(() => {
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    if (window.scrollY >= maxScroll - 5) {
+                        clearInterval(autoScrollInterval);
+                    } else {
+                        window.scrollBy(0, 1);
+                    }
+                }, 25);
+            }, 1200);
+        }
+
+        window.addEventListener('touchstart', () => clearInterval(autoScrollInterval));
+        window.addEventListener('wheel', () => clearInterval(autoScrollInterval));
+
+        window.openInvitation = function(event) {
+            playPopSoundEffect();
+            triggerHeartBurst(event);
+
+            try {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('musicIcon').className = 'fas fa-music';
+                }).catch(e => console.log("Audio Notice:", e));
+            } catch(e) { console.log(e); }
+
+            const intro = document.getElementById('intro-screen');
+            const main = document.getElementById('main-content');
+            const musicBtn = document.getElementById('musicBtn');
+
+            if (intro && main) {
+                intro.style.opacity = '0';
+                intro.style.transform = 'translateY(-100vh)';
+                
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                    main.style.display = 'block';
+                    if (musicBtn) musicBtn.style.opacity = '1';
+                    void main.offsetWidth; 
+                    main.style.opacity = '1';
+
+                    startSlowAutoScroll();
+
+                }, 500);
+            }
+        };
+
+        const targetDate = new Date('2026-10-16T15:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('cd-days').innerText = d < 10 ? '0' + d : d;
+                document.getElementById('cd-hours').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('cd-mins').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('cd-secs').innerText = s < 10 ? '0' + s : s;
+            }
+        }, 1000);
+
+        function generateCalendar() {
+            const container = document.getElementById('calendar-days');
+            let html = '';
+            for(let i=0; i<4; i++) { html += `<div class="calendar-day"></div>`; }
+            for(let day=1; day<=31; day++) {
+                if(day === 16) {
+                    html += `<div class="calendar-day highlight">${day}</div>`;
+                } else {
+                    html += `<div class="calendar-day">${day}</div>`;
+                }
+            }
+            container.innerHTML = html;
+        }
+        generateCalendar();
+
+        function saveToCalendar() {
+            const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('حفل زفاف محمد و نجوى 💒')}&dates=20261016T150000/20261016T220000&details=${encodeURIComponent('ننتظركم لتشاركونا أجمل لحظات العمر')}&location=${encodeURIComponent('https://maps.app.goo.gl/mN8eViRApmg3bjTB9')}`;
+            window.open(gCalUrl, '_blank');
+        }
+
+        function submitGuestData() {
+            const name = document.getElementById('guestName').value.trim();
+            const message = document.getElementById('guestMessage').value.trim();
+
+            if (!name) {
+                alert("لطفاً، قم بكتابة اسمك أولاً ✨");
+                return;
+            }
+
+            if (!message) {
+                alert("يرجى كتابة تهنئتك للعروسين ❤️");
+                return;
+            }
+
+            const submission = {
+                id: Date.now(),
+                name: name,
+                message: message,
+                date: new Date().toLocaleDateString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            const existing = JSON.parse(localStorage.getItem('wedding_submissions') || '[]');
+            existing.push(submission);
+            localStorage.setItem('wedding_submissions', JSON.stringify(existing));
+
+            alert("شكراً لك! تم إرسال تهنئتك للعروسين بنجاح 🎉❤️");
+
+            document.getElementById('guestName').value = '';
+            document.getElementById('guestMessage').value = '';
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('authError').classList.add('hidden');
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPassword').value.trim();
+            if (pass === 'بحبك') {
+                closeAdminAuthModal();
+                openAdminDashboard();
+            } else {
+                document.getElementById('authError').classList.remove('hidden');
+            }
+        }
+
+        function openAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+            renderAdminSubmissions();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.add('hidden');
+        }
+
+        function renderAdminSubmissions() {
+            const listContainer = document.getElementById('adminSubmissionsList');
+            const data = JSON.parse(localStorage.getItem('wedding_submissions') || '[]');
+
+            if (data.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-gray-400 font-sans text-sm my-8">لا توجد تهانٍ مرسلة حتى الآن.</p>`;
+                return;
+            }
+
+            let html = '';
+            data.reverse().forEach(item => {
+                html += `
+                    <div class="bg-[#2a040c] border border-yellow-500/40 rounded-xl p-4 shadow-lg text-right font-sans relative">
+                        <div class="flex justify-between items-center mb-2 border-b border-yellow-900/40 pb-2">
+                            <span class="font-bold text-yellow-300 text-base"><i class="fas fa-user-heart ml-2 text-rose-400"></i>${item.name}</span>
+                            <span class="text-[10px] text-gray-400 font-mono">${item.date}</span>
+                        </div>
+
+                        <p class="text-xs text-yellow-100/90 leading-relaxed mb-3 bg-[#3b0713]/60 p-2.5 rounded-lg border border-yellow-500/20">${item.message}</p>
+
+                        <button onclick="deleteSubmission(${item.id})" class="mt-2 bg-rose-900/80 hover:bg-rose-700 text-rose-200 text-xs px-3 py-1.5 rounded-lg transition">
+                            <i class="fas fa-trash-alt ml-1"></i> حذف هذه التهنئة
+                        </button>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+        }
+
+        function deleteSubmission(id) {
+            if (confirm("هل أنت متأكد من حذف هذه التهنئة؟")) {
+                let data = JSON.parse(localStorage.getItem('wedding_submissions') || '[]');
+                data = data.filter(item => item.id !== id);
+                localStorage.setItem('wedding_submissions', JSON.stringify(data));
+                renderAdminSubmissions();
+            }
+        }
+    </script>
+</body>
+</html>
