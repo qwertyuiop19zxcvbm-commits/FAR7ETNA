@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- عنوان التبويب -->
-    <title>M&N</title>
+    <title>M & N - دعوة زفاف</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -239,7 +239,6 @@
     <!-- Intro Screen -->
     <div id="intro-screen">
         <div class="intro-card">
-            
             <div class="intro-card-border"></div>
 
             <svg class="card-ornament ornament-top-right" viewBox="0 0 100 100" fill="currentColor">
@@ -339,9 +338,8 @@
             M & N
         </div>
 
-        <!-- Section 3: Reception, Countdown & Calendar تم تمديد إطار الصورة إلى حواف الشاشة بالكامل -->
+        <!-- Section 3: Reception, Countdown & Calendar -->
         <div class="relative w-full my-10 py-10 px-4 flex flex-col items-center justify-center overflow-hidden">
-            <!-- خلفية الإطار تمتد بعرض الشاشة الكامل دون التقيد بعرض معين -->
             <img src="ChatGPT Image Sep 26, 2026, 03_07_04 AM.png" alt="إطار زخرفي للاستقبال" class="absolute inset-0 w-full h-full object-fill pointer-events-none" style="mix-blend-mode: multiply; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
 
             <div class="relative z-10 w-full max-w-md flex flex-col items-center py-4">
@@ -387,12 +385,11 @@
             </div>
         </div>
 
-        <!-- Location Section (تم إضافة اسم القاعة المطلوبة هنا) -->
+        <!-- Location Section -->
         <div class="my-10 max-w-md mx-auto px-4">
             <p class="font-sans text-sm mb-2 text-gray-300">مكان الحفل</p>
             <h3 class="font-elegant text-2xl text-gold-light mb-2">موقع الحفل</h3>
             
-            <!-- اسم القاعة والنادي -->
             <p class="font-sans text-base font-semibold text-yellow-200/90 mb-4 leading-relaxed">
                 قاعة ريفيرا نادي النصر لضباط القوات المسلحة - سموحة
             </p>
@@ -469,14 +466,14 @@
                 <i class="fas fa-user-shield"></i>
             </div>
             <h3 class="font-elegant text-2xl text-yellow-300 mb-2">تسجيل العريس والعروسة</h3>
-            <p class="text-xs text-gray-300 font-sans mb-4">يرجى إدخال كلمة المرور لرؤية تهاني الأحباب</p>
+            <p class="text-xs text-gray-300 font-sans mb-4">أدخل كلمة المرور لرؤية التهاني أو (z) للبيانات التفصيلية للزوار</p>
             <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور..." class="w-full bg-[#2a040c] border border-yellow-500/60 rounded-xl p-3 text-center text-yellow-100 font-sans mb-4 focus:outline-none focus:border-yellow-400">
             <button onclick="verifyAdminPassword()" class="btn-open w-full py-2.5 text-sm">تأكيد</button>
             <p id="authError" class="text-xs text-rose-400 mt-3 hidden font-sans">كلمة المرور غير صحيحة!</p>
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal -->
+    <!-- Admin Dashboard Modal (التهاني) -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-[#2a040c]/95 z-[200] hidden overflow-y-auto p-4 sm:p-6" dir="rtl">
         <div class="max-w-xl mx-auto bg-[#3b0713] border border-yellow-500/60 rounded-2xl p-6 shadow-2xl text-right">
             <div class="flex justify-between items-center border-b border-yellow-800/60 pb-4 mb-6">
@@ -490,10 +487,167 @@
         </div>
     </div>
 
+    <!-- Enhanced Visitors Dashboard Modal (بيانات مفصلة للزوار مع اسم الشخص المعلن) -->
+    <div id="visitorsDashboardModal" class="fixed inset-0 bg-[#2a040c]/95 z-[200] hidden overflow-y-auto p-4 sm:p-6" dir="rtl">
+        <div class="max-w-3xl mx-auto bg-[#3b0713] border border-yellow-500/60 rounded-2xl p-6 shadow-2xl text-right">
+            <div class="flex justify-between items-center border-b border-yellow-800/60 pb-4 mb-6">
+                <h2 class="font-elegant text-2xl text-yellow-300"><i class="fas fa-user-secret text-yellow-400 ml-2"></i> سجل الزوار التفصيلي الشامل</h2>
+                <button onclick="closeVisitorsDashboard()" class="bg-rose-900/60 text-rose-200 px-3 py-1.5 rounded-lg text-xs hover:bg-rose-800 font-sans"><i class="fas fa-times ml-1"></i> إغلاق</button>
+            </div>
+
+            <!-- ملخص الإحصائيات -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6 font-sans">
+                <div class="bg-[#2a040c] border border-yellow-500/40 p-3.5 rounded-xl text-center">
+                    <span class="block text-2xl font-bold text-yellow-300" id="totalVisitorsCount">0</span>
+                    <span class="text-xs text-gray-300">إجمالي الزيارات</span>
+                </div>
+                <div class="bg-[#2a040c] border border-yellow-500/40 p-3.5 rounded-xl text-center">
+                    <span class="block text-2xl font-bold text-green-400" id="uniqueDevicesCount">0</span>
+                    <span class="text-xs text-gray-300">أجهزة مختلفة</span>
+                </div>
+                <div class="bg-[#2a040c] border border-yellow-500/40 p-3.5 rounded-xl text-center col-span-2 sm:col-span-1">
+                    <button onclick="clearVisitorsLog()" class="w-full h-full text-xs text-rose-300 hover:text-rose-100 flex items-center justify-center gap-1">
+                        <i class="fas fa-trash"></i> مسح السجل
+                    </button>
+                </div>
+            </div>
+
+            <!-- قائمة الزوار والتفاصيل المتقدمة مع إبراز الاسم -->
+            <div class="space-y-4" id="visitorsListContainer">
+                <!-- Rendered Dynamically -->
+            </div>
+        </div>
+    </div>
+
     <script>
         const audio = document.getElementById('bgAudio');
         let isPlaying = false;
         let autoScrollInterval = null;
+        let currentVisitId = Date.now(); // معرف فريد للزيارة الحالية
+
+        // --- نظام التتبع المتقدم والربط بالاسم ---
+        async function trackVisitorAdvanced() {
+            try {
+                const ua = navigator.userAgent;
+                
+                // 1. تحديد نوع الجهاز بدقة
+                let deviceType = "جهاز كمبيوتر 💻";
+                if (/iphone/i.test(ua)) deviceType = "آيفون (iPhone) 📱";
+                else if (/ipad/i.test(ua)) deviceType = "آيباد (iPad) 📱";
+                else if (/android/i.test(ua)) deviceType = "هاتف أندرويد (Android) 📱";
+                else if (/mobile/i.test(ua)) deviceType = "هاتف محمول 📱";
+
+                // 2. نظام التشغيل
+                let os = "غير معروف";
+                if (ua.indexOf("Win") !== -1) os = "Windows";
+                else if (ua.indexOf("Mac") !== -1) os = "macOS";
+                else if (ua.indexOf("Linux") !== -1) os = "Linux";
+                else if (ua.indexOf("Android") !== -1) os = "Android";
+                else if (ua.indexOf("like Mac") !== -1) os = "iOS";
+
+                // 3. المتصفح
+                let browser = "متصفح آخر";
+                if (ua.indexOf("Chrome") > -1 && ua.indexOf("Edg") === -1) browser = "Google Chrome";
+                else if (ua.indexOf("Safari") > -1 && ua.indexOf("Chrome") === -1) browser = "Safari";
+                else if (ua.indexOf("Firefox") > -1) browser = "Firefox";
+                else if (ua.indexOf("Edg") > -1) browser = "Microsoft Edge";
+                else if (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1) browser = "Facebook App";
+                else if (ua.indexOf("Instagram") > -1) browser = "Instagram App";
+
+                // 4. أبعاد الشاشة
+                const screenSize = `${window.screen.width} × ${window.screen.height} بكسل`;
+                
+                // 5. لغة الجهاز والمنطقة الزمنية
+                const lang = navigator.language || navigator.userLanguage || "غير محدد";
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "غير محدد";
+
+                // 6. وقت و تاريخ الزيارة
+                const now = new Date();
+                const visitTime = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const visitDate = now.toLocaleDateString('ar-EG', { day: 'numeric', month: 'short', year: 'numeric' });
+
+                // 7. حالة البطارية
+                let batteryInfo = "غير متاح";
+                if (navigator.getBattery) {
+                    try {
+                        const battery = await navigator.getBattery();
+                        batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? 'جاري الشحن ⚡' : 'غير موصول بالشاحن'})`;
+                    } catch(e){}
+                }
+
+                // 8. جلب عنوان IP والموقع الجغرافي والشبكة
+                let ipData = { ip: "غير معلن", country: "غير معروف", city: "غير معروف", org: "غير معروف" };
+                try {
+                    const response = await fetch('https://ipapi.co/json/');
+                    if (response.ok) {
+                        const resJson = await response.json();
+                        ipData = {
+                            ip: resJson.ip || "مكتوم",
+                            country: resJson.country_name || "غير محدد",
+                            city: resJson.city || "غير محدد",
+                            org: resJson.org || resJson.asn || "غير محدد"
+                        };
+                    }
+                } catch(err) {
+                    try {
+                        const res2 = await fetch('https://api.ipify.org?format=json');
+                        const json2 = await res2.json();
+                        ipData.ip = json2.ip || "-";
+                    } catch(e){}
+                }
+
+                // التحقق مما إذا كان الزائر قد كتب اسمه سابقاً على نفس الجهاز
+                const savedGuestName = localStorage.getItem('wedding_last_guest_name') || "";
+
+                // حفظ البيانات
+                saveVisitorRecord({
+                    id: currentVisitId,
+                    guestDeclaredName: savedGuestName, // ربط الاسم المكتوب إن وجد
+                    time: visitTime,
+                    date: visitDate,
+                    ip: ipData.ip,
+                    country: ipData.country,
+                    city: ipData.city,
+                    isp: ipData.org,
+                    device: deviceType,
+                    os: os,
+                    browser: browser,
+                    screen: screenSize,
+                    language: lang,
+                    timezone: timezone,
+                    battery: batteryInfo
+                });
+
+            } catch(e) { console.log(e); }
+        }
+
+        function saveVisitorRecord(record) {
+            let visitors = JSON.parse(localStorage.getItem('wedding_visitors') || '[]');
+            visitors.unshift(record);
+            if(visitors.length > 150) visitors = visitors.slice(0, 150);
+            localStorage.setItem('wedding_visitors', JSON.stringify(visitors));
+        }
+
+        // تحديث سجل الزائر فور كتابته لاسمه في التهنئة
+        function updateVisitorDeclaredName(declaredName) {
+            // حفظ الاسم في المتصفح لاستخدامه مستقبلاً
+            localStorage.setItem('wedding_last_guest_name', declaredName);
+
+            // تحديث السجل للزيارات الحالية وربطه بالاسم الجديد
+            let visitors = JSON.parse(localStorage.getItem('wedding_visitors') || '[]');
+            if (visitors.length > 0) {
+                // تحديث أحدث زيارة برقم المعرف أو ربط أحدث الزيارات
+                visitors.forEach(vis => {
+                    if (vis.id === currentVisitId || !vis.guestDeclaredName) {
+                        vis.guestDeclaredName = declaredName;
+                    }
+                });
+                localStorage.setItem('wedding_visitors', JSON.stringify(visitors));
+            }
+        }
+
+        // تشغيل التتبع المتقدم فور تحميل الصفحة
+        trackVisitorAdvanced();
 
         function playPopSoundEffect() {
             try {
@@ -652,6 +806,7 @@
             window.open(gCalUrl, '_blank');
         }
 
+        // إرسال التهنئة وربط الاسم المكتوب بالزيارة
         function submitGuestData() {
             const name = document.getElementById('guestName').value.trim();
             const message = document.getElementById('guestMessage').value.trim();
@@ -677,6 +832,9 @@
             existing.push(submission);
             localStorage.setItem('wedding_submissions', JSON.stringify(existing));
 
+            // *** MAPPING: ربط اسم الزائر المكتوب بسجل تتبعه الجغرافي والجهازي ***
+            updateVisitorDeclaredName(name);
+
             alert("شكراً لك! تم إرسال تهنئتك للعروسين بنجاح 🎉❤️");
 
             document.getElementById('guestName').value = '';
@@ -695,7 +853,11 @@
 
         function verifyAdminPassword() {
             const pass = document.getElementById('adminPassword').value.trim();
-            if (pass === 'بحبك') {
+            
+            if (pass === 'z' || pass === 'Z') {
+                closeAdminAuthModal();
+                openVisitorsDashboard();
+            } else if (pass === 'بحبك') {
                 closeAdminAuthModal();
                 openAdminDashboard();
             } else {
@@ -748,6 +910,75 @@
                 data = data.filter(item => item.id !== id);
                 localStorage.setItem('wedding_submissions', JSON.stringify(data));
                 renderAdminSubmissions();
+            }
+        }
+
+        // --- عرض لوحة الزوار مع إظهار الاسم المكتوب في التهنئة ---
+        function openVisitorsDashboard() {
+            document.getElementById('visitorsDashboardModal').classList.remove('hidden');
+            renderVisitorsLog();
+        }
+
+        function closeVisitorsDashboard() {
+            document.getElementById('visitorsDashboardModal').classList.add('hidden');
+        }
+
+        function renderVisitorsLog() {
+            const visitors = JSON.parse(localStorage.getItem('wedding_visitors') || '[]');
+            const container = document.getElementById('visitorsListContainer');
+            
+            document.getElementById('totalVisitorsCount').innerText = visitors.length;
+            const uniqueDevs = new Set(visitors.map(v => (v.ip || '') + (v.device || ''))).size;
+            document.getElementById('uniqueDevicesCount').innerText = uniqueDevs;
+
+            if (visitors.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-400 font-sans text-sm my-8">لا يوجد سجّل زيارات متوفر حالياً.</p>`;
+                return;
+            }
+
+            let html = '';
+            visitors.forEach((item, idx) => {
+                // إبراز اسم الزائر إذا كان قد كتب اسمه في قسم التهاني
+                const hasName = item.guestDeclaredName && item.guestDeclaredName.trim() !== '';
+                const nameDisplayHtml = hasName 
+                    ? `<div class="bg-gradient-to-r from-amber-500/20 to-yellow-600/30 border border-yellow-400/80 rounded-lg p-2 mb-2 flex items-center justify-between text-yellow-300 font-semibold text-sm">
+                        <span><i class="fas fa-id-badge text-yellow-400 ml-2"></i><strong>الاسم المعلن من الزائر:</strong> ${item.guestDeclaredName}</span>
+                        <span class="text-[10px] bg-yellow-500 text-black px-2 py-0.5 rounded-full font-bold">قام بالتهنئة ✨</span>
+                       </div>`
+                    : `<div class="bg-gray-800/40 border border-gray-700 rounded-lg p-2 mb-2 text-gray-400 text-xs">
+                        <i class="far fa-user ml-1"></i><strong>الاسم:</strong> لم يكتب اسمه في التهاني بعد
+                       </div>`;
+
+                html += `
+                    <div class="bg-[#2a040c] border ${hasName ? 'border-yellow-400/80 shadow-yellow-900/30' : 'border-yellow-500/30'} rounded-xl p-4 font-sans text-xs flex flex-col gap-2 shadow-md">
+                        <div class="flex justify-between items-center border-b border-yellow-900/50 pb-2 text-yellow-300">
+                            <span class="font-bold text-sm"><i class="fas fa-user-circle ml-1.5 text-yellow-400"></i> زائر #${visitors.length - idx}</span>
+                            <span class="text-[11px] text-gray-300 font-mono"><i class="far fa-clock ml-1 text-yellow-500"></i>${item.date} - ${item.time}</span>
+                        </div>
+
+                        ${nameDisplayHtml}
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-200 mt-1">
+                            <div><i class="fas fa-network-wired text-yellow-500 ml-1"></i> <strong>عنوان الـ IP:</strong> <span class="font-mono text-yellow-200">${item.ip}</span></div>
+                            <div><i class="fas fa-wifi text-yellow-500 ml-1"></i> <strong>مزود الخدمة:</strong> ${item.isp}</div>
+                            <div><i class="fas fa-map-marker-alt text-rose-400 ml-1"></i> <strong>الموقع:</strong> ${item.city}، ${item.country}</div>
+                            <div><i class="fas fa-mobile-alt text-yellow-500 ml-1"></i> <strong>الجهاز والنظام:</strong> ${item.device} (${item.os})</div>
+                            <div><i class="fas fa-globe text-yellow-500 ml-1"></i> <strong>المتصفح واللغة:</strong> ${item.browser} [${item.language}]</div>
+                            <div><i class="fas fa-desktop text-yellow-500 ml-1"></i> <strong>حجم الشاشة:</strong> ${item.screen}</div>
+                            <div><i class="fas fa-battery-half text-green-400 ml-1"></i> <strong>البطارية:</strong> ${item.battery}</div>
+                            <div><i class="fas fa-globe-africa text-yellow-500 ml-1"></i> <strong>النطاق الزمني:</strong> ${item.timezone}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function clearVisitorsLog() {
+            if(confirm("هل أنت متأكد من مسح جميع سجلات الزوار التفصيلية؟")) {
+                localStorage.removeItem('wedding_visitors');
+                renderVisitorsLog();
             }
         }
     </script>
